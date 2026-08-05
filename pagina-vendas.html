@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Currículo Irresistível IA — Passe pelo robô, chegue ao recrutador</title>
+<style>
+  :root{
+    --azul-profundo:#1B4B8E;
+    --azul-noite:#0D2B5E;
+    --magenta:#D4427A;
+    --prata:#C0C8D8;
+    --off-white:#F6F7FB;
+    --tinta:#141A2E;
+    --sucesso:#1E9E6B;
+    --sans: "Inter", -apple-system, "Segoe UI", sans-serif;
+    --serif: "Source Serif 4", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--sans);color:var(--tinta);background:var(--off-white);}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 20px;}
+  section{padding:64px 0;}
+
+  /* HERO */
+  .hero{
+    background:linear-gradient(135deg,var(--azul-noite),var(--azul-profundo) 75%);
+    color:white; padding:70px 0 60px; position:relative; overflow:hidden;
+  }
+  .hero::after{content:"";position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;
+    background:radial-gradient(circle, rgba(212,66,122,.35), transparent 70%);}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--prata);
+    display:flex;align-items:center;gap:10px;justify-content:center;}
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--magenta);}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(30px,5vw,46px);text-align:center;line-height:1.12;margin:16px 0 18px;}
+  .lede{max-width:560px;margin:0 auto 30px;text-align:center;color:#DCE3F0;font-size:16.5px;line-height:1.6;}
+  .cta-center{text-align:center;}
+  .cta-btn{display:inline-block;background:var(--magenta);color:white;font-weight:700;font-size:16px;
+    padding:16px 30px;border-radius:12px;box-shadow:0 10px 24px -6px rgba(212,66,122,.6);}
+  .cta-sub{font-size:12.5px;color:var(--prata);margin-top:10px;font-family:var(--mono);}
+
+  /* PROBLEMA */
+  .problema h2{font-family:var(--serif);font-size:28px;text-align:center;margin-bottom:8px;}
+  .problema p.sub{text-align:center;color:#5A6478;max-width:520px;margin:0 auto 34px;}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media(max-width:700px){.grid3{grid-template-columns:1fr;}}
+  .box{background:white;border:1px solid #E3E7F0;border-radius:14px;padding:22px;}
+  .box .n{font-family:var(--serif);color:var(--magenta);font-size:22px;font-weight:700;}
+  .box p{font-size:13.5px;color:#5A6478;line-height:1.55;margin:6px 0 0;}
+
+  /* METODO */
+  .metodo-section{background:white;}
+  .metodo-section h2{font-family:var(--serif);font-size:28px;text-align:center;margin-bottom:6px;}
+  .metodo-section p.sub{text-align:center;color:#5A6478;max-width:540px;margin:0 auto 34px;}
+  .metodo{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--prata);border-radius:14px;overflow:hidden;}
+  @media(max-width:700px){.metodo{grid-template-columns:1fr 1fr;}}
+  .metodo div{background:var(--off-white);padding:20px 16px;}
+  .metodo .letra{font-family:var(--serif);color:var(--magenta);font-size:26px;font-weight:700;}
+  .metodo .nome{font-size:13.5px;font-weight:700;margin-top:4px;}
+  .metodo .desc{font-size:12px;color:#5A6478;margin-top:5px;line-height:1.45;}
+
+  /* OFERTA */
+  .oferta{background:var(--off-white);}
+  .oferta-card{background:white;border:1.5px solid var(--azul-profundo);border-radius:18px;padding:36px;max-width:520px;margin:0 auto;position:relative;}
+  .oferta-card .selo{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--magenta);color:white;
+    font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:6px 14px;border-radius:999px;}
+  .oferta-card h3{font-family:var(--serif);font-size:22px;text-align:center;margin:10px 0 2px;}
+  .oferta-card .preco{text-align:center;font-family:var(--serif);font-size:44px;font-weight:700;color:var(--azul-noite);margin:6px 0 2px;}
+  .oferta-card .preco small{font-family:var(--sans);font-size:13px;color:#8890A2;font-weight:400;display:block;}
+  .oferta-card ul{list-style:none;padding:0;margin:24px 0;}
+  .oferta-card li{padding:9px 0;border-bottom:1px solid #EEF1F8;font-size:14px;display:flex;gap:10px;}
+  .oferta-card li::before{content:"✓";color:var(--sucesso);font-weight:700;}
+  .oferta-card .cta-btn{display:block;text-align:center;width:100%;}
+  .credit-note{background:#EEF1F8;border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--azul-noite);margin-top:16px;line-height:1.5;}
+
+  /* PARA QUEM */
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+  @media(max-width:700px){.duo{grid-template-columns:1fr;}}
+  .duo .box h4{margin:0 0 12px;font-family:var(--serif);font-size:17px;}
+  .duo .box ul{margin:0;padding-left:18px;font-size:13.5px;color:#5A6478;line-height:1.7;}
+
+  /* FAQ */
+  .faq h2{font-family:var(--serif);font-size:28px;text-align:center;margin-bottom:30px;}
+  .faq-item{border-bottom:1px solid #E3E7F0;padding:18px 0;}
+  .faq-item .q{font-weight:700;font-size:14.5px;margin-bottom:6px;}
+  .faq-item .a{font-size:13.5px;color:#5A6478;line-height:1.6;}
+
+  footer{background:var(--azul-noite);color:var(--prata);text-align:center;padding:40px 20px;font-size:12px;line-height:1.7;}
+  footer strong{color:white;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow"><span class="dot"></span>SUA VAGA DE EMPREGO — Método A.R.T.E.®</div>
+    <h1>Seu currículo não é ruim.<br>Ele só não fala a língua do robô.</h1>
+    <p class="lede">Anexe seu currículo atual, escolha a vaga que você quer, e receba em segundos uma versão reformulada, com palavras-chave certas, pronta para passar pelo filtro automático e chegar ao recrutador de verdade.</p>
+    <div class="cta-center">
+      <a class="cta-btn" href="https://go.hotmart.com/Y104796429S" target="_blank" rel="noopener">Quero meu currículo irresistível — R$ 29,90 →</a>
+      <div class="cta-sub">acesso imediato · 100 créditos · válido por 30 dias</div>
+    </div>
+  </div>
+</div>
+
+<section class="problema">
+  <div class="wrap">
+    <h2>Você já sentiu isso?</h2>
+    <p class="sub">Antes de existir o Currículo Irresistível IA, era assim:</p>
+    <div class="grid3">
+      <div class="box"><div class="n">1</div><p>Você envia currículo pra dezenas de vagas e o silêncio é a única resposta.</p></div>
+      <div class="box"><div class="n">2</div><p>Seu currículo é bom, mas foi escrito pensando na pessoa — não no sistema que filtra antes de qualquer humano ver.</p></div>
+      <div class="box"><div class="n">3</div><p>Você não sabe quais palavras o ATS está procurando pra cada vaga específica.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="metodo-section">
+  <div class="wrap">
+    <h2>O Método A.R.T.E.®</h2>
+    <p class="sub">Um processo, não um truque. É o que transforma currículo comum em currículo que passa.</p>
+    <div class="metodo">
+      <div><div class="letra">A</div><div class="nome">Analise a vaga</div><div class="desc">Identifica palavras-chave e competências que o filtro automático procura</div></div>
+      <div><div class="letra">R</div><div class="nome">Reformule</div><div class="desc">Transforma tarefas em conquistas, mantendo sua voz real</div></div>
+      <div><div class="letra">T</div><div class="nome">Teste</div><div class="desc">Confere prontidão ATS antes de enviar</div></div>
+      <div><div class="letra">E</div><div class="nome">Execute</div><div class="desc">Plano de candidatura para aplicar o que foi gerado</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="oferta">
+  <div class="wrap">
+    <div class="oferta-card">
+      <div class="selo">LANÇAMENTO</div>
+      <h3>Plano Start</h3>
+      <div class="preco">R$ 29,90<small>pagamento único</small></div>
+      <ul>
+        <li>100 créditos (até 5 currículos otimizados)</li>
+        <li>Adaptação automática para a vaga que você escolher</li>
+        <li>PDF profissional pronto para enviar</li>
+        <li>Sugestões para o seu perfil do LinkedIn</li>
+        <li>Checklist de preparação para entrevistas</li>
+        <li>Acesso por 30 dias</li>
+      </ul>
+      <a class="cta-btn" href="https://go.hotmart.com/Y104796429S" target="_blank" rel="noopener">Garantir meu acesso agora</a>
+      <div class="credit-note">Cada currículo gerado consome 20 dos seus 100 créditos — ou seja, você pode testar para até 5 vagas diferentes dentro dos 30 dias.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="duo">
+      <div class="box">
+        <h4>Para quem é</h4>
+        <ul>
+          <li>Quem envia currículo e recebe silêncio</li>
+          <li>Quem já tentou de tudo sozinho</li>
+          <li>Quem quer usar IA a favor da própria carreira</li>
+          <li>Quem quer aumentar chances reais de entrevista</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>Para quem não é</h4>
+        <ul>
+          <li>Quem espera milagre ou emprego garantido</li>
+          <li>Quem não vai revisar o currículo gerado</li>
+          <li>Quem não vai de fato se candidatar depois</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="wrap">
+    <h2>Perguntas frequentes</h2>
+    <div class="faq-item"><div class="q">Como recebo o acesso?</div><div class="a">Em minutos após a compra aprovada, você recebe um e-mail com seu código de acesso pessoal. Basta usar seu e-mail + código na ferramenta.</div></div>
+    <div class="faq-item"><div class="q">O currículo vai ter informações inventadas?</div><div class="a">Não. A IA reorganiza e reformula com base apenas no que já está no seu currículo original — nada de experiência ou formação inventada.</div></div>
+    <div class="faq-item"><div class="q">Isso garante que eu vou ser contratado?</div><div class="a">Não. O que garantimos é um currículo mais claro, estratégico e alinhado à vaga, aumentando suas chances reais de ser chamado para entrevistas.</div></div>
+    <div class="faq-item"><div class="q">Os créditos acabam depois de quanto tempo?</div><div class="a">Seu acesso e seus 100 créditos valem por 30 dias a partir da compra.</div></div>
+  </div>
+</section>
+
+<footer>
+  <strong>SUA VAGA DE EMPREGO</strong> · Currículo Irresistível IA — Método A.R.T.E.®<br>
+  Este produto aumenta suas chances de entrevista por meio de um currículo mais claro e estratégico. Não garantimos contratação.
+</footer>
+
+</body>
+</html>

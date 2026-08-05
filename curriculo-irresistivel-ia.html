@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Currículo Irresistível IA — SUA VAGA DE EMPREGO</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  :root{
+    --azul-profundo:#1B4B8E;
+    --azul-noite:#0D2B5E;
+    --magenta:#D4427A;
+    --prata:#C0C8D8;
+    --off-white:#F6F7FB;
+    --tinta:#141A2E;
+    --sucesso:#1E9E6B;
+    --erro:#C0392B;
+    --radius:14px;
+    --serif: "Source Serif 4", Georgia, serif;
+    --sans: "Inter", -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    background:
+      radial-gradient(1100px 500px at 85% -10%, rgba(212,66,122,.12), transparent),
+      var(--off-white);
+    color:var(--tinta);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  .wrap{max-width:960px;margin:0 auto;padding:32px 20px 80px;}
+
+  /* HERO */
+  .hero{
+    background:linear-gradient(135deg,var(--azul-noite),var(--azul-profundo) 70%);
+    border-radius:20px;
+    color:white;
+    padding:40px 32px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; right:-60px; top:-60px;
+    width:260px;height:260px;border-radius:50%;
+    background:radial-gradient(circle, rgba(212,66,122,.35), transparent 70%);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--prata);
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--magenta);}
+  h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(28px,4vw,40px);
+    margin:14px 0 8px;
+    line-height:1.1;
+  }
+  .hero p.lede{
+    max-width:520px;
+    color:#DCE3F0;
+    font-size:15.5px;
+    line-height:1.6;
+    margin:0 0 22px;
+  }
+  .price-row{display:flex; flex-wrap:wrap; align-items:center; gap:16px; margin-top:8px;}
+  .price{
+    font-family:var(--serif);
+    font-size:34px;
+    font-weight:600;
+  }
+  .price small{font-family:var(--sans); font-size:13px; color:var(--prata); font-weight:400; display:block;}
+  .badge{
+    background:rgba(212,66,122,.18);
+    border:1px solid rgba(212,66,122,.5);
+    color:#FFD9E6;
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:.05em;
+    padding:5px 10px;
+    border-radius:999px;
+  }
+  .cta-btn{
+    display:inline-block;
+    background:var(--magenta);
+    color:white;
+    text-decoration:none;
+    font-weight:600;
+    font-size:14.5px;
+    padding:13px 22px;
+    border-radius:10px;
+    transition:transform .15s ease, box-shadow .15s ease;
+    box-shadow:0 8px 20px -6px rgba(212,66,122,.6);
+  }
+  .cta-btn:hover{transform:translateY(-1px);}
+
+  /* METHOD STRIP */
+  .metodo{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:1px;
+    background:var(--prata);
+    border-radius:14px;
+    overflow:hidden;
+    margin:28px 0 36px;
+  }
+  .metodo div{
+    background:white;
+    padding:16px 14px;
+  }
+  .metodo .letra{
+    font-family:var(--serif);
+    color:var(--magenta);
+    font-size:22px;
+    font-weight:700;
+  }
+  .metodo .nome{font-size:12.5px; font-weight:600; margin-top:2px;}
+  .metodo .desc{font-size:11.5px; color:#5A6478; margin-top:3px; line-height:1.4;}
+
+  /* CARD / TOOL */
+  .card{
+    background:white;
+    border:1px solid #E3E7F0;
+    border-radius:var(--radius);
+    padding:28px;
+    margin-bottom:22px;
+  }
+  .card h2{
+    font-family:var(--serif);
+    font-size:20px;
+    margin:0 0 4px;
+  }
+  .card .sub{font-size:13.5px; color:#5A6478; margin:0 0 20px;}
+  label{
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:.02em;
+    margin-bottom:6px;
+    color:var(--azul-noite);
+  }
+  .field{margin-bottom:18px;}
+  input[type=text], textarea, select{
+    width:100%;
+    border:1.5px solid #DCE1EC;
+    border-radius:10px;
+    padding:11px 13px;
+    font-family:var(--sans);
+    font-size:14px;
+    background:#FBFCFE;
+    resize:vertical;
+  }
+  input[type=text]:focus, textarea:focus, select:focus{
+    outline:none; border-color:var(--azul-profundo);
+    box-shadow:0 0 0 3px rgba(27,75,142,.12);
+  }
+  .dropzone{
+    border:2px dashed #C9D2E3;
+    border-radius:12px;
+    padding:22px;
+    text-align:center;
+    cursor:pointer;
+    background:#FBFCFE;
+    transition:border-color .15s, background .15s;
+  }
+  .dropzone.drag{border-color:var(--magenta); background:#FFF5F8;}
+  .dropzone .icon{font-size:22px; margin-bottom:6px;}
+  .dropzone strong{color:var(--azul-profundo);}
+  .filename{
+    margin-top:10px; font-size:13px; color:var(--sucesso); font-weight:600;
+  }
+  .divider-or{
+    display:flex; align-items:center; gap:12px; margin:14px 0;
+    color:#9AA3B5; font-size:12px; font-family:var(--mono);
+  }
+  .divider-or::before, .divider-or::after{content:""; flex:1; height:1px; background:#E3E7F0;}
+
+  button.primary{
+    background:var(--azul-profundo);
+    color:white;
+    border:none;
+    font-weight:600;
+    font-size:15px;
+    padding:14px 22px;
+    border-radius:10px;
+    cursor:pointer;
+    width:100%;
+    transition:background .15s;
+  }
+  button.primary:hover{background:var(--azul-noite);}
+  button.primary:disabled{background:#AEB8CC; cursor:not-allowed;}
+
+  .msg{font-size:13px; margin-top:12px; padding:10px 12px; border-radius:8px;}
+  .msg.err{background:#FCECEB; color:var(--erro);}
+  .msg.ok{background:#E9F8F1; color:var(--sucesso);}
+  .msg.warn{background:#FFF6E5; color:#8A5A00;}
+
+  /* RESULT */
+  #resultado{display:none;}
+  .result-head{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:16px; flex-wrap:wrap;
+  }
+  .ats-score{
+    font-family:var(--mono);
+    background:var(--azul-noite);
+    color:white;
+    border-radius:10px;
+    padding:10px 16px;
+    text-align:center;
+    min-width:90px;
+  }
+  .ats-score .num{font-size:22px; font-weight:700; color:#8FE3C0;}
+  .ats-score .lbl{font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--prata);}
+
+  .resume-preview{
+    border:1px solid #E3E7F0;
+    border-radius:12px;
+    padding:26px;
+    margin-top:18px;
+    background:#FDFDFE;
+    font-size:13.5px;
+    line-height:1.6;
+  }
+  .resume-preview h3.nome{font-family:var(--serif); font-size:22px; margin:0 0 2px; color:var(--azul-noite);}
+  .resume-preview .cargo{color:var(--magenta); font-weight:600; font-size:13px; margin-bottom:14px;}
+  .resume-preview h4{
+    font-size:11.5px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--azul-profundo); border-bottom:1.5px solid var(--prata);
+    padding-bottom:4px; margin:18px 0 8px;
+  }
+  .job{margin-bottom:12px;}
+  .job .titulo{font-weight:700;}
+  .job .periodo{float:right; color:#7A8298; font-size:12px; font-family:var(--mono);}
+  .job ul{margin:5px 0 0 18px; padding:0;}
+  .skills-list{display:flex; flex-wrap:wrap; gap:6px;}
+  .skills-list span{
+    background:#EEF1F8; color:var(--azul-noite); font-size:12px;
+    padding:4px 10px; border-radius:999px;
+  }
+
+  .download-btn{
+    background:var(--magenta); color:white; border:none;
+    padding:13px 20px; border-radius:10px; font-weight:600; font-size:14px;
+    cursor:pointer; margin-top:18px; width:100%;
+  }
+  .download-btn:hover{background:#B93469;}
+
+  .footnote{font-size:11.5px; color:#8890A2; text-align:center; margin-top:30px; line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow"><span class="dot"></span>SUA VAGA DE EMPREGO — Método A.R.T.E.®</div>
+    <h1>Seu currículo antigo entra.<br>Um currículo irresistível sai.</h1>
+    <p class="lede">Anexe seu currículo atual, escolha a vaga que você quer, e a IA reformula tudo em segundos usando o Método A.R.T.E.® — pronto para passar pelo robô e chegar ao recrutador.</p>
+    <div class="price-row">
+      <div class="price">R$ 29,90 <small>Plano Start · lançamento</small></div>
+      <span class="badge">100 créditos · 20 por currículo gerado</span>
+      <a class="cta-btn" href="https://go.hotmart.com/Y104796429S" target="_blank" rel="noopener">Garantir meu acesso →</a>
+    </div>
+  </div>
+
+  <div class="metodo">
+    <div><div class="letra">A</div><div class="nome">Analise a vaga</div><div class="desc">Identifica palavras-chave e o que o ATS procura</div></div>
+    <div><div class="letra">R</div><div class="nome">Reformule</div><div class="desc">Transforma tarefas em resultados mensuráveis</div></div>
+    <div><div class="letra">T</div><div class="nome">Teste</div><div class="desc">Checklist ATS antes de enviar</div></div>
+    <div><div class="letra">E</div><div class="nome">Execute</div><div class="desc">Plano 5x5x5 de candidaturas</div></div>
+  </div>
+
+  <div class="card" id="gateCard">
+    <h2>Acesse com seu e-mail e código</h2>
+    <p class="sub">Você recebeu o código de acesso por e-mail logo após a compra no Hotmart.</p>
+    <div class="field">
+      <label>E-mail usado na compra</label>
+      <input type="text" id="gateEmail" placeholder="seuemail@exemplo.com">
+    </div>
+    <div class="field">
+      <label>Código de acesso</label>
+      <input type="text" id="gateCodigo" placeholder="Ex: A1B2C3" style="text-transform:uppercase;">
+    </div>
+    <button class="primary" id="gateBtn">Verificar acesso</button>
+    <div id="gateMsg"></div>
+  </div>
+
+  <div id="toolArea" style="display:none;">
+  <div class="card" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+    <div>
+      <div style="font-size:12.5px;color:#5A6478;">Acesso ativo</div>
+      <div style="font-weight:700;color:var(--azul-noite);" id="creditosLabel">— créditos restantes</div>
+    </div>
+    <span class="badge" style="background:#EEF1F8;border-color:var(--prata);color:var(--azul-noite);" id="expiraLabel"></span>
+  </div>
+
+  <div class="card">
+    <h2>1. Seu currículo atual</h2>
+    <p class="sub">Envie o arquivo (PDF, Word ou TXT) ou cole o texto direto.</p>
+
+    <div class="dropzone" id="dropzone">
+      <div class="icon">📄</div>
+      <div><strong>Clique para escolher um arquivo</strong> ou arraste aqui</div>
+      <div style="font-size:12px;color:#8890A2;margin-top:4px;">PDF, DOCX ou TXT</div>
+      <div class="filename" id="filename"></div>
+    </div>
+    <input type="file" id="fileInput" accept=".pdf,.docx,.txt" style="display:none;">
+
+    <div class="divider-or">ou cole o texto</div>
+
+    <div class="field">
+      <textarea id="resumeText" rows="6" placeholder="Cole aqui o texto do seu currículo atual..."></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2. Para qual vaga?</h2>
+    <p class="sub">Quanto mais detalhe, mais preciso fica o resultado.</p>
+    <div class="field">
+      <label>Cargo desejado</label>
+      <input type="text" id="cargoAlvo" placeholder="Ex: Analista de RH Pleno">
+    </div>
+    <div class="field">
+      <label>Descrição da vaga (opcional — cole o anúncio da empresa)</label>
+      <textarea id="jobDesc" rows="4" placeholder="Cole aqui os requisitos da vaga, se tiver..."></textarea>
+    </div>
+  </div>
+
+  <div class="card">
+    <button class="primary" id="gerarBtn">Gerar meu currículo irresistível</button>
+    <div id="statusMsg"></div>
+  </div>
+
+  <div class="card" id="resultado">
+    <div class="result-head">
+      <div>
+        <h2>Seu currículo otimizado</h2>
+        <p class="sub" style="margin-bottom:0;">Revise antes de enviar — você pode ajustar detalhes pessoais no PDF final.</p>
+      </div>
+      <div class="ats-score"><div class="num" id="atsScoreNum">—</div><div class="lbl">Prontidão ATS</div></div>
+    </div>
+    <div class="resume-preview" id="previewBox"></div>
+    <button class="download-btn" id="downloadBtn">Baixar PDF profissional</button>
+  </div>
+  </div><!-- fim #toolArea -->
+
+  <p class="footnote">
+    O Currículo Irresistível IA aumenta suas chances reais de ser chamado para entrevistas por meio de um currículo mais claro, estratégico e alinhado à vaga. Não garantimos contratação.<br>
+    Ferramenta parte do ecossistema SUA VAGA DE EMPREGO.
+  </p>
+</div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+const dropzone = document.getElementById(\'dropzone\');
+const fileInput = document.getElementById(\'fileInput\');
+const filenameEl = document.getElementById(\'filename\');
+const resumeText = document.getElementById(\'resumeText\');
+const statusMsg = document.getElementById(\'statusMsg\');
+const gerarBtn = document.getElementById(\'gerarBtn\');
+const resultado = document.getElementById(\'resultado\');
+const previewBox = document.getElementById(\'previewBox\');
+const atsScoreNum = document.getElementById(\'atsScoreNum\');
+const downloadBtn = document.getElementById(\'downloadBtn\');
+
+// Cole aqui a URL do seu Apps Script (termina em /exec) — veja backend-controle-acesso.gs
+const SCRIPT_URL = '/exec';
+const PROXY_URL = 'https://xxxx.workers.dev';
+const CUSTO_POR_GERACAO = 20;
+
+let lastResumeData = null;
+let acesso = { email: \'\', codigo: \'\', creditos: 0 };
+
+const gateBtn = document.getElementById(\'gateBtn\');
+const gateMsg = document.getElementById(\'gateMsg\');
+const toolArea = document.getElementById(\'toolArea\');
+const creditosLabel = document.getElementById(\'creditosLabel\');
+const expiraLabel = document.getElementById(\'expiraLabel\');
+
+gateBtn.addEventListener(\'click\', async () => {
+  const email = document.getElementById(\'gateEmail\').value.trim();
+  const codigo = document.getElementById(\'gateCodigo\').value.trim().toUpperCase();
+  if (!email || !codigo) {
+    gateMsg.innerHTML = \'<div class="msg err">Preencha e-mail e código.</div>\';
+    return;
+  }
+  gateBtn.disabled = true;
+  gateBtn.textContent = \'Verificando...\';
+  try {
+    const url = SCRIPT_URL + \'?action=validar&email=\' + encodeURIComponent(email) + \'&codigo=\' + encodeURIComponent(codigo);
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.ok) {
+      acesso = { email, codigo, creditos: data.creditos_restantes };
+      gateMsg.innerHTML = \'\';
+      document.getElementById(\'gateCard\').style.display = \'none\';
+      toolArea.style.display = \'block\';
+      atualizarCreditos(data.creditos_restantes, data.expira_em);
+    } else {
+      gateMsg.innerHTML = \'<div class="msg err">\' + mensagemErro(data.motivo) + \'</div>\';
+    }
+  } catch (err) {
+    gateMsg.innerHTML = \'<div class="msg err">Não consegui verificar seu acesso agora. Tente novamente.</div>\';
+  } finally {
+    gateBtn.disabled = false;
+    gateBtn.textContent = \'Verificar acesso\';
+  }
+});
+
+function mensagemErro(motivo) {
+  const mapa = {
+    nao_encontrado: \'E-mail ou código não encontrados. Confira o e-mail que você recebeu após a compra.\',
+    expirado: \'Seu acesso expirou (validade de 30 dias). Renove seu plano para continuar.\',
+    sem_creditos: \'Você não tem créditos suficientes (cada currículo consome 20 créditos). Faça upgrade para o Plano Plus.\',
+    cancelado: \'Este acesso foi cancelado.\',
+    dados_incompletos: \'Preencha e-mail e código.\'
+  };
+  return mapa[motivo] || \'Não foi possível validar seu acesso.\';
+}
+
+function atualizarCreditos(creditos, expiraEm) {
+  acesso.creditos = creditos;
+  creditosLabel.textContent = creditos + \' créditos restantes (\' + Math.floor(creditos / CUSTO_POR_GERACAO) + \' currículos)\
+';
+  if (expiraEm) {
+    const d = new Date(expiraEm);
+    expiraLabel.textContent = \'válido até \' + d.toLocaleDateString(\'pt-BR\');
+  }
+  if (creditos < CUSTO_POR_GERACAO) {
+    gerarBtn.disabled = true;
+    gerarBtn.textContent = \'Créditos insuficientes\';
+    statusMsg.innerHTML = \'<div class="msg err">Você não tem os 20 créditos necessários para gerar outro currículo. Faça upgrade para o Plano Plus.</div>\';
+  }
+}
+
+dropzone.addEventListener(\'click\', () => fileInput.click());
+dropzone.addEventListener(\'dragover\', e => { e.preventDefault(); dropzone.classList.add(\'drag\'); });
+dropzone.addEventListener(\'dragleave\', () => dropzone.classList.remove(\'drag\'));
+dropzone.addEventListener(\'drop\', e => {
+  e.preventDefault();
+  dropzone.classList.remove(\'drag\');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener(\'change\', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+
+async function handleFile(file) {
+  filenameEl.textContent = "Lendo " + file.name + "...";
+  try {
+    const ext = file.name.split(\'.\').pop().toLowerCase();
+    let text = "";
+    if (ext === \'txt\') {
+      text = await file.text();
+    } else if (ext === \'docx\') {
+      const buf = await file.arrayBuffer();
+      const res = await mammoth.extractRawText({ arrayBuffer: buf });
+      text = res.value;
+    } else if (ext === \'pdf\') {
+      const buf = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        text += content.items.map(it => it.str).join(\' \') + \'\\n\';
+      }
+    } else {
+      throw new Error(\'Formato não suportado\');
+    }
+    resumeText.value = text.trim();
+    filenameEl.textContent = "✓ " + file.name + " carregado";
+  } catch (err) {
+    filenameEl.textContent = "";
+    showMsg(\'Não consegui ler esse arquivo. Tente colar o texto diretamente.\', \'err\');
+  }
+}
+
+function showMsg(text, type) {
+  statusMsg.innerHTML = \'<div class="msg \' + type + \'">\' + text + \'</div>\';
+}
+
+gerarBtn.addEventListener(\'click\', async () => {
+  const cv = resumeText.value.trim();
+  const cargo = document.getElementById(\'cargoAlvo\').value.trim();
+  const jobDesc = document.getElementById(\'jobDesc\').value.trim();
+
+  if (!cv) return showMsg(\'Cole ou envie seu currículo atual primeiro.\', \'err\');
+  if (!cargo) return showMsg(\'Informe o cargo desejado.\', \'err\');
+  if (cv.length > 8000) showMsg(\'Seu currículo é longo — vamos usar os primeiros 8.000 caracteres. Se faltar alguma experiência importante no resultado, edite o texto para priorizá-la.\', \'warn\');
+
+  gerarBtn.disabled = true;
+  gerarBtn.textContent = \'Aplicando Método A.R.T.E.®...\';
+  statusMsg.innerHTML = \'\';
+  resultado.style.display = \'none\';
+
+  const prompt = `Você é um especialista brasileiro em otimização de currículos para sistemas ATS, aplicando o Método A.R.T.E.® (Analise, Reformule, Teste, Execute).\n\nCURRÍCULO ATUAL DO CANDIDATO:\n"""\n${cv.slice(0, 8000)}\n"""\n\nCARGO DESEJADO: ${cargo}\n${jobDesc ? \'DESCRIÇÃO DA VAGA:\\n"""\\n\' + jobDesc.slice(0,2500) + \'\\n"""\' : \'\'}\n\nTAREFA: Reescreva este currículo para o cargo acima, seguindo estas regras rígidas:\n- NUNCA invente empresas, cargos, datas ou formação que não estejam no currículo original. Apenas reorganize, reformule e destaque o que já existe.\n- Transforme tarefas em conquistas com números sempre que o texto original permitir inferir isso; se não houver dado numérico, não invente.\n- Use palavras-chave relevantes para o cargo e para filtros ATS.\n- Escreva em português do Brasil, tom profissional e direto.\n- Limite: no máximo 3 experiências profissionais e 4 bullets por experiência.\n- EVITE clichês e jargão corporativo genérico de IA, como "expertise consolidada", "resultados expressivos", "sólida experiência", "vasta bagagem", "proatividade e excelência", "entrega de valor" ou frases-padrão similares. Prefira verbos de ação concretos e específicos ao que a pessoa de fato fez.\n- Varie o comprimento e a estrutura das frases entre os bullets — não repita o mesmo padrão gramatical (ex: "Verbo + substantivo + resultado") em todos eles, isso soa artificial.\n- Escreva como um profissional de RH experiente editaria um texto humano: direto, específico, sem adjetivos vazios. Se uma frase poderia ter sido escrita sobre qualquer pessoa nessa profissão, ela é genérica demais — reescreva com algo específico do currículo original.\n\nResponda APENAS com um JSON válido, sem texto antes ou depois, neste formato exato:\n{\n  "nome": "string ou \'Seu Nome\' se não identificado no currículo",\n  "cargo_alvo": "${cargo}",\n  "resumo_profissional": "2-3 frases",\n  "experiencias": [{"cargo":"", "empresa":"", "periodo":"", "bullets":["",""]}],\n  "formacao": [{"curso":"", "instituicao":"", "periodo":""}],\n  "competencias": ["até 8 itens"],\n  "palavras_chave_ats": ["5 a 8 palavras-chave usadas"],\n  "ats_score": número de 1 a 100 estimando a prontidão ATS do currículo reformulado\n}`;
+
+  try {
+    const response = await fetch(PROXY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 1400,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+    const data = await response.json();
+    const textBlock = data.content.find(b => b.type === \'text\');
+    let raw = textBlock ? textBlock.text : \'\';
+    raw = raw.replace(/```json|```/g, \'\').trim();
+    const parsed = JSON.parse(raw);
+    lastResumeData = parsed;
+    renderPreview(parsed);
+    showMsg(\'Currículo gerado com sucesso.\', \'ok\');
+
+    // Desconta 1 crédito no backend agora que a geração deu certo
+    try {
+      const consumoRes = await fetch(SCRIPT_URL, {
+        method: \'POST\',
+        headers: { \'Content-Type\': \'text/plain;charset=utf-8\' },
+        body: JSON.stringify({ action: \'consumir_credito\', email: acesso.email, codigo: acesso.codigo })
+      });
+      const consumoData = await consumoRes.json();
+      if (consumoData.ok) {
+        atualizarCreditos(consumoData.creditos_restantes, null);
+      }
+    } catch (e) {
+      console.error(\'Falha ao descontar crédito:\', e);
+    }
+  } catch (err) {
+    console.error(err);    showMsg(\'Algo deu errado ao gerar o currículo. Tente novamente.\', \'err\');
+  } finally {
+    gerarBtn.disabled = false;
+    gerarBtn.textContent = \'Gerar meu currículo irresistível\';
+  }
+});
+
+function renderPreview(d) {
+  atsScoreNum.textContent = (d.ats_score || \'—\') + (d.ats_score ? \'%\' : \'\');
+  let html = `<h3 class="nome">${escapeHtml(d.nome || \'Seu Nome\')}</h3>\n	  <div class="cargo">${escapeHtml(d.cargo_alvo || \'\')}</div>\n	  <p>${escapeHtml(d.resumo_profissional || \'\')}</p>`;
+
+  if (d.experiencias && d.experiencias.length) {
+    html += \'<h4>Experiência</h4>\';
+    d.experiencias.forEach(exp => {
+      html += `<div class="job"><span class="periodo">${escapeHtml(exp.periodo||\'\')}</span>\n	      <div class="titulo">${escapeHtml(exp.cargo||\'\')} — ${escapeHtml(exp.empresa||\'\')}</div>\n	      <ul>${(exp.bullets||[]).map(b=>\'<li>\'+escapeHtml(b)+\'</li>\').join(\'\')}</ul></div>`;
+    });
+  }
+  if (d.formacao && d.formacao.length) {
+    html += \'<h4>Formação</h4>\';
+    d.formacao.forEach(f => {
+      html += `<div class="job"><span class="periodo">${escapeHtml(f.periodo||\'\')}</span>\n	      <div class="titulo">${escapeHtml(f.curso||\'\')} — ${escapeHtml(f.instituicao||\'\')}</div></div>`;
+    });
+  }
+  if (d.competencias && d.competencias.length) {
+    html += \'<h4>Competências</h4><div class="skills-list">\' +
+      d.competencias.map(c=>\'<span>\'+escapeHtml(c)+\'</span>\').join(\'\') + \'</div>\';
+  }
+  previewBox.innerHTML = html;
+  resultado.style.display = \'block\';
+  resultado.scrollIntoView({ behavior: \'smooth\', block: \'start\' });
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"\']/g, m => ({\'&\':\'&amp;\',\'<\':\'&lt;\',\'>\':\'&gt;\',\'"\':\'&quot;\',"\'\':\'&#39;\'}[m]));
+}
+
+downloadBtn.addEventListener(\'click\', () => {
+  if (!lastResumeData) return;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: \'pt\', format: \'a4\' });
+  const d = lastResumeData;
+  const marginX = 50;
+  let y = 60;
+  const pageWidth = 595 - marginX * 2;
+
+  doc.setFont(\'helvetica\', \'bold\'); doc.setFontSize(20); doc.setTextColor(13,43,94);
+  doc.text(d.nome || \'Seu Nome\', marginX, y);
+  y += 20;
+  doc.setFont(\'helvetica\', \'normal\'); doc.setFontSize(12); doc.setTextColor(212,66,122);
+  doc.text(d.cargo_alvo || \'\', marginX, y);
+  y += 22;
+
+  doc.setTextColor(20,26,46); doc.setFontSize(10.5);
+  const resumoLines = doc.splitTextToSize(d.resumo_profissional || \'\', pageWidth);
+  doc.text(resumoLines, marginX, y);
+  y += resumoLines.length * 13 + 14;
+
+  function sectionTitle(t) {
+    doc.setFont(\'helvetica\',\'bold\'); doc.setFontSize(11); doc.setTextColor(27,75,142);
+    doc.text(t.toUpperCase(), marginX, y);
+    doc.setDrawColor(192,200,216);
+    doc.line(marginX, y+4, 595-marginX, y+4);
+    y += 18;
+    doc.setFont(\'helvetica\',\'normal\'); doc.setTextColor(20,26,46);
+  }
+
+  if (d.experiencias && d.experiencias.length) {
+    sectionTitle(\'Experiência Profissional\');
+    d.experiencias.forEach(exp => {
+      doc.setFont(\'helvetica\',\'bold\'); doc.setFontSize(10.5);
+      doc.text(`${exp.cargo || \'\'} — ${exp.empresa || \'\'}`, marginX, y);
+      doc.setFont(\'helvetica\',\'normal\'); doc.setFontSize(9.5); doc.setTextColor(120,128,152);
+      doc.text(exp.periodo || \'\', 595-marginX, y, { align: \'right\' });
+      doc.setTextColor(20,26,46);
+      y += 14;
+      (exp.bullets||[]).forEach(b => {
+        const lines = doc.splitTextToSize(\'• \' + b, pageWidth - 10);
+        doc.setFontSize(9.5);
+        doc.text(lines, marginX+8, y);
+        y += lines.length * 12;
+      });
+      y += 8;
+    });
+  }
+
+  if (d.formacao && d.formacao.length) {
+    sectionTitle(\'Formação\');
+    d.formacao.forEach(f => {
+      doc.setFontSize(10);
+      doc.text(`${f.curso || \'\'} — ${f.instituicao || \'\'}`, marginX, y);
+      doc.setTextColor(120,128,152);
+      doc.text(f.periodo || \'\', 595-marginX, y, { align: \'right\' });
+      doc.setTextColor(20,26,46);
+      y += 16;
+    });
+    y += 6;
+  }
+
+  if (d.competencias && d.competencias.length) {
+    sectionTitle(\'Competências\');
+    const compLines = doc.splitTextToSize(d.competencias.join(\'  •  \'), pageWidth);
+    doc.setFontSize(9.5);
+    doc.text(compLines, marginX, y);
+    y += compLines.length * 12 + 10;
+  }
+
+  doc.setFontSize(8); doc.setTextColor(150,155,170);
+  doc.text(\'Gerado com Currículo Irresistível IA — Método A.R.T.E.® — SUA VAGA DE EMPREGO\', marginX, 800);
+
+  const safeName = (d.nome || \'curriculo\').replace(/[^a-zA-Z0-9]/g, \'_\');
+  doc.save(`Curriculo_${safeName}.pdf`);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "project_name": "Currículo Irresistível IA",
+  "version": "1.0.0-RC-1",
+  "status": "RELEASE_CANDIDATE",
+  "last_update": "2026-07-19",
+  "configuration": {
+    "google_sheets_id": "xxxxxxxxxxxxxxxx",
+    "apps_script_url": "/exec",
+    "cloudflare_worker_url": "https://xxxx.workers.dev"
+  },
+  "files_count": 25,
+  "milestones": {
+    "extraction": "COMPLETE",
+    "documentation": "COMPLETE",
+    "configuration": "COMPLETE",
+    "audit": "COMPLETE",
+    "deploy": "PENDING"
+  }
+}
