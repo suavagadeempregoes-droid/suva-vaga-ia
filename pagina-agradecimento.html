@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Compra aprovada — Currículo Irresistível IA</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{
+    --azul-profundo:#1B4B8E;
+    --azul-noite:#0D2B5E;
+    --magenta:#D4427A;
+    --prata:#C0C8D8;
+    --off-white:#F6F7FB;
+    --tinta:#141A2E;
+    --sucesso:#1E9E6B;
+    --radius:14px;
+    --serif: "Source Serif 4", Georgia, serif;
+    --sans: "Inter", -apple-system, "Segoe UI", sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    background:
+      radial-gradient(1100px 500px at 85% -10%, rgba(212,66,122,.12), transparent),
+      var(--off-white);
+    color:var(--tinta);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  .wrap{max-width:720px;margin:0 auto;padding:32px 20px 80px;}
+
+  /* HERO */
+  .hero{
+    background:linear-gradient(135deg,var(--azul-noite),var(--azul-profundo) 70%);
+    border-radius:20px;
+    color:white;
+    padding:44px 32px;
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+  }
+  .hero::after{
+    content:"";
+    position:absolute; right:-60px; top:-60px;
+    width:260px;height:260px;border-radius:50%;
+    background:radial-gradient(circle, rgba(212,66,122,.35), transparent 70%);
+  }
+  .check{
+    width:52px;height:52px;border-radius:50%;
+    background:rgba(30,158,107,.18);
+    border:1.5px solid var(--sucesso);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 18px;
+    position:relative;
+    animation:pop .5s cubic-bezier(.2,1.4,.4,1) both;
+  }
+  .check svg{width:24px;height:24px;}
+  @keyframes pop{from{transform:scale(.6);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--prata);
+    display:flex; align-items:center; justify-content:center; gap:10px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--magenta);}
+  h1{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(26px,4vw,34px);
+    margin:14px 0 10px;
+    line-height:1.2;
+  }
+  .hero p.lede{
+    max-width:460px;
+    margin:0 auto;
+    color:#DCE3F0;
+    font-size:15px;
+    line-height:1.65;
+  }
+
+  /* CARD */
+  .card{
+    background:white;
+    border:1px solid #E6E9F2;
+    border-radius:var(--radius);
+    padding:26px 24px;
+    margin-top:20px;
+  }
+  .card h2{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:19px;
+    margin:0 0 4px;
+    color:var(--azul-noite);
+  }
+  .card .sub{color:#5A6478;font-size:13.5px;margin:0 0 18px;line-height:1.55;}
+
+  /* STEPS */
+  .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0;}
+  .step{
+    display:flex;gap:14px;align-items:flex-start;
+    padding:14px 0;
+    border-bottom:1px solid #EEF1F8;
+  }
+  .step:last-child{border-bottom:none;padding-bottom:0;}
+  .step:first-child{padding-top:0;}
+  .step-num{
+    flex:0 0 auto;
+    width:28px;height:28px;border-radius:50%;
+    background:var(--azul-noite);color:white;
+    font-family:var(--mono);font-size:12.5px;font-weight:600;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .step.done .step-num{background:var(--sucesso);}
+  .step-title{font-weight:600;font-size:14.5px;color:var(--tinta);margin-bottom:2px;}
+  .step-desc{font-size:13.5px;color:#5A6478;line-height:1.55;}
+  .tag-agora{
+    display:inline-block;margin-left:8px;
+    font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--magenta);
+    border:1px solid rgba(212,66,122,.35);
+    border-radius:100px;padding:2px 8px;
+  }
+
+  /* CTA */
+  .cta-block{text-align:center;margin-top:6px;}
+  .cta-btn{
+    display:inline-block;
+    background:var(--magenta);
+    color:white;
+    font-weight:600;
+    font-size:15.5px;
+    text-decoration:none;
+    padding:15px 30px;
+    border-radius:100px;
+    box-shadow:0 10px 24px -8px rgba(212,66,122,.55);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .cta-btn:hover{transform:translateY(-1px);box-shadow:0 14px 28px -8px rgba(212,66,122,.6);}
+  .cta-note{font-size:12.5px;color:#8890A2;margin-top:10px;}
+
+  /* CHECKLIST DO QUE VOCE VAI PRECISAR */
+  .prep-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;}
+  .prep-list li{
+    display:flex;gap:10px;align-items:flex-start;
+    font-size:13.5px;color:var(--tinta);line-height:1.5;
+  }
+  .prep-list li::before{
+    content:"";flex:0 0 auto;width:6px;height:6px;border-radius:50%;
+    background:var(--azul-profundo);margin-top:7px;
+  }
+
+  /* SUPORTE */
+  .support-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px;}
+  .support-item{
+    flex:1 1 220px;
+    background:var(--off-white);
+    border:1px solid #E6E9F2;
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:13px;color:#5A6478;
+  }
+  .support-item strong{display:block;color:var(--tinta);font-size:13.5px;margin-bottom:3px;}
+
+  .disclaimer{
+    text-align:center;font-size:11.5px;color:#9AA2B4;
+    margin-top:26px;line-height:1.6;
+  }
+  .disclaimer a{text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="check">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#1E9E6B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="5 13 10 18 19 7"></polyline>
+      </svg>
+    </div>
+    <div class="eyebrow"><span class="dot"></span>SUA VAGA DE EMPREGO</div>
+    <h1>Compra aprovada. Seu currículo irresistível está a um passo.</h1>
+    <p class="lede">Falta só uma coisa antes de você reformular seu currículo com o Método A.R.T.E.®: o e-mail com o seu código de acesso pessoal.</p>
+  </div>
+
+  <div class="card">
+    <h2>O que acontece agora</h2>
+    <p class="sub">Três passos simples entre esta tela e o seu currículo pronto.</p>
+    <ul class="steps">
+      <li class="step done">
+        <div class="step-num">✓</div>
+        <div>
+          <div class="step-title">Pagamento confirmado</div>
+          <div class="step-desc">Sua compra do Currículo Irresistível IA foi aprovada pela Hotmart.</div>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Código de acesso a caminho <span class="tag-agora">em minutos</span></div>
+          <div class="step-desc">Você vai receber um segundo e-mail com um código pessoal. Se não aparecer em até 15 minutos, olhe a caixa de spam ou promoções.</div>
+        </div>
+      </li>
+      <li class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Acesse a ferramenta e gere seu currículo</div>
+          <div class="step-desc">Informe o e-mail da compra + o código recebido, anexe seu currículo atual, escolha o cargo desejado e receba a versão reformulada em PDF.</div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card cta-block">
+    <h2 style="margin-bottom:14px;">Acessar a ferramenta</h2>
+    <a class="cta-btn" href="https://suavagadeempregoes-droid.github.io/suva-vaga-ia/curriculo-irresistivel-ia.html" target="_blank" rel="noopener">Ir para o Currículo Irresistível IA →</a>
+    <div class="cta-note">Você vai precisar do código de acesso que chega por e-mail para entrar.</div>
+  </div>
+
+  <div class="card">
+    <h2>Antes de começar, separe:</h2>
+    <ul class="prep-list">
+      <li>Seu currículo atual em PDF, Word ou até o texto puro — pode colar direto</li>
+      <li>O cargo que você quer aplicar e, se tiver, a descrição da vaga</li>
+      <li>15 a 30 minutos de foco, sem pressa — quanto mais detalhe você der, mais preciso fica o resultado</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Precisa de ajuda?</h2>
+    <p class="sub">As dúvidas mais comuns nesta etapa:</p>
+    <div class="support-row">
+      <div class="support-item">
+        <strong>O código não chegou</strong>
+        Confira spam/promoções primeiro. Se ainda assim não estiver lá, fale com a gente informando o e-mail usado na compra.
+      </div>
+      <div class="support-item">
+        <strong>Comprei errado / quero reembolso</strong>
+        Garantia incondicional de 7 dias, sem perguntas. É só entrar em contato.
+      </div>
+    </div>
+  </div>
+
+  <p class="disclaimer">
+    O Currículo Irresistível IA aumenta suas chances reais de ser chamado para entrevistas por meio de um currículo mais claro e estratégico. Não garantimos contratação.<br>
+    SUA VAGA DE EMPREGO · Compra processada com segurança via Hotmart
+  </p>
+
+</div>
+</body>
+</html>
