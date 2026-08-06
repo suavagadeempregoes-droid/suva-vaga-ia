@@ -98,7 +98,7 @@ function registrarCompra(emailBruto) {
       'Seu acesso ao Currículo Irresistível IA',
       'Olá!\n\nSeu código de acesso é: ' + codigo +
       '\n\nUse seu e-mail (' + email + ') + este código na ferramenta.' +
-      '\nVocê tem 100 créditos, e cada currículo gerado consome 20 créditos (ou seja, até 5 currículos).'
+      '\nVocê tem 100 créditos, e cada currículo gerado consome 20 créditos (ou seja, até 5 currículos).' +
       '\nVálido por 30 dias.\n\nBoa sorte na sua candidatura!'
     );
   } catch (err) {

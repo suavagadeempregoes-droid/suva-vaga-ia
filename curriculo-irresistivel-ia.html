@@ -362,16 +362,16 @@
 <script>
 pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-const dropzone = document.getElementById(\'dropzone\');
-const fileInput = document.getElementById(\'fileInput\');
-const filenameEl = document.getElementById(\'filename\');
-const resumeText = document.getElementById(\'resumeText\');
-const statusMsg = document.getElementById(\'statusMsg\');
-const gerarBtn = document.getElementById(\'gerarBtn\');
-const resultado = document.getElementById(\'resultado\');
-const previewBox = document.getElementById(\'previewBox\');
-const atsScoreNum = document.getElementById(\'atsScoreNum\');
-const downloadBtn = document.getElementById(\'downloadBtn\');
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+const filenameEl = document.getElementById('filename');
+const resumeText = document.getElementById('resumeText');
+const statusMsg = document.getElementById('statusMsg');
+const gerarBtn = document.getElementById('gerarBtn');
+const resultado = document.getElementById('resultado');
+const previewBox = document.getElementById('previewBox');
+const atsScoreNum = document.getElementById('atsScoreNum');
+const downloadBtn = document.getElementById('downloadBtn');
 
 // Cole aqui a URL do seu Apps Script (termina em /exec) — veja backend-controle-acesso.gs
 const SCRIPT_URL = '/exec';
@@ -379,129 +379,129 @@ const PROXY_URL = 'https://xxxx.workers.dev';
 const CUSTO_POR_GERACAO = 20;
 
 let lastResumeData = null;
-let acesso = { email: \'\', codigo: \'\', creditos: 0 };
+let acesso = { email: '', codigo: '', creditos: 0 };
 
-const gateBtn = document.getElementById(\'gateBtn\');
-const gateMsg = document.getElementById(\'gateMsg\');
-const toolArea = document.getElementById(\'toolArea\');
-const creditosLabel = document.getElementById(\'creditosLabel\');
-const expiraLabel = document.getElementById(\'expiraLabel\');
+const gateBtn = document.getElementById('gateBtn');
+const gateMsg = document.getElementById('gateMsg');
+const toolArea = document.getElementById('toolArea');
+const creditosLabel = document.getElementById('creditosLabel');
+const expiraLabel = document.getElementById('expiraLabel');
 
-gateBtn.addEventListener(\'click\', async () => {
-  const email = document.getElementById(\'gateEmail\').value.trim();
-  const codigo = document.getElementById(\'gateCodigo\').value.trim().toUpperCase();
+gateBtn.addEventListener('click', async () => {
+  const email = document.getElementById('gateEmail').value.trim();
+  const codigo = document.getElementById('gateCodigo').value.trim().toUpperCase();
   if (!email || !codigo) {
-    gateMsg.innerHTML = \'<div class="msg err">Preencha e-mail e código.</div>\';
+    gateMsg.innerHTML = '<div class="msg err">Preencha e-mail e código.</div>';
     return;
   }
   gateBtn.disabled = true;
-  gateBtn.textContent = \'Verificando...\';
+  gateBtn.textContent = 'Verificando...';
   try {
-    const url = SCRIPT_URL + \'?action=validar&email=\' + encodeURIComponent(email) + \'&codigo=\' + encodeURIComponent(codigo);
+    const url = SCRIPT_URL + '?action=validar&email=' + encodeURIComponent(email) + '&codigo=' + encodeURIComponent(codigo);
     const res = await fetch(url);
     const data = await res.json();
     if (data.ok) {
       acesso = { email, codigo, creditos: data.creditos_restantes };
-      gateMsg.innerHTML = \'\';
-      document.getElementById(\'gateCard\').style.display = \'none\';
-      toolArea.style.display = \'block\';
+      gateMsg.innerHTML = '';
+      document.getElementById('gateCard').style.display = 'none';
+      toolArea.style.display = 'block';
       atualizarCreditos(data.creditos_restantes, data.expira_em);
     } else {
-      gateMsg.innerHTML = \'<div class="msg err">\' + mensagemErro(data.motivo) + \'</div>\';
+      gateMsg.innerHTML = '<div class="msg err">' + mensagemErro(data.motivo) + '</div>';
     }
   } catch (err) {
-    gateMsg.innerHTML = \'<div class="msg err">Não consegui verificar seu acesso agora. Tente novamente.</div>\';
+    gateMsg.innerHTML = '<div class="msg err">Não consegui verificar seu acesso agora. Tente novamente.</div>';
   } finally {
     gateBtn.disabled = false;
-    gateBtn.textContent = \'Verificar acesso\';
+    gateBtn.textContent = 'Verificar acesso';
   }
 });
 
 function mensagemErro(motivo) {
   const mapa = {
-    nao_encontrado: \'E-mail ou código não encontrados. Confira o e-mail que você recebeu após a compra.\',
-    expirado: \'Seu acesso expirou (validade de 30 dias). Renove seu plano para continuar.\',
-    sem_creditos: \'Você não tem créditos suficientes (cada currículo consome 20 créditos). Faça upgrade para o Plano Plus.\',
-    cancelado: \'Este acesso foi cancelado.\',
-    dados_incompletos: \'Preencha e-mail e código.\'
+    nao_encontrado: 'E-mail ou código não encontrados. Confira o e-mail que você recebeu após a compra.',
+    expirado: 'Seu acesso expirou (validade de 30 dias). Renove seu plano para continuar.',
+    sem_creditos: 'Você não tem créditos suficientes (cada currículo consome 20 créditos). Faça upgrade para o Plano Plus.',
+    cancelado: 'Este acesso foi cancelado.',
+    dados_incompletos: 'Preencha e-mail e código.'
   };
-  return mapa[motivo] || \'Não foi possível validar seu acesso.\';
+  return mapa[motivo] || 'Não foi possível validar seu acesso.';
 }
 
 function atualizarCreditos(creditos, expiraEm) {
   acesso.creditos = creditos;
-  creditosLabel.textContent = creditos + \' créditos restantes (\' + Math.floor(creditos / CUSTO_POR_GERACAO) + \' currículos)\
+  creditosLabel.textContent = creditos + ' créditos restantes (' + Math.floor(creditos / CUSTO_POR_GERACAO) + ' currículos)\
 ';
   if (expiraEm) {
     const d = new Date(expiraEm);
-    expiraLabel.textContent = \'válido até \' + d.toLocaleDateString(\'pt-BR\');
+    expiraLabel.textContent = 'válido até ' + d.toLocaleDateString('pt-BR');
   }
   if (creditos < CUSTO_POR_GERACAO) {
     gerarBtn.disabled = true;
-    gerarBtn.textContent = \'Créditos insuficientes\';
-    statusMsg.innerHTML = \'<div class="msg err">Você não tem os 20 créditos necessários para gerar outro currículo. Faça upgrade para o Plano Plus.</div>\';
+    gerarBtn.textContent = 'Créditos insuficientes';
+    statusMsg.innerHTML = '<div class="msg err">Você não tem os 20 créditos necessários para gerar outro currículo. Faça upgrade para o Plano Plus.</div>';
   }
 }
 
-dropzone.addEventListener(\'click\', () => fileInput.click());
-dropzone.addEventListener(\'dragover\', e => { e.preventDefault(); dropzone.classList.add(\'drag\'); });
-dropzone.addEventListener(\'dragleave\', () => dropzone.classList.remove(\'drag\'));
-dropzone.addEventListener(\'drop\', e => {
+dropzone.addEventListener('click', () => fileInput.click());
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag'));
+dropzone.addEventListener('drop', e => {
   e.preventDefault();
-  dropzone.classList.remove(\'drag\');
+  dropzone.classList.remove('drag');
   if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
 });
-fileInput.addEventListener(\'change\', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
 
 async function handleFile(file) {
   filenameEl.textContent = "Lendo " + file.name + "...";
   try {
-    const ext = file.name.split(\'.\').pop().toLowerCase();
+    const ext = file.name.split('.').pop().toLowerCase();
     let text = "";
-    if (ext === \'txt\') {
+    if (ext === 'txt') {
       text = await file.text();
-    } else if (ext === \'docx\') {
+    } else if (ext === 'docx') {
       const buf = await file.arrayBuffer();
       const res = await mammoth.extractRawText({ arrayBuffer: buf });
       text = res.value;
-    } else if (ext === \'pdf\') {
+    } else if (ext === 'pdf') {
       const buf = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
       for (let i = 1; i <= pdf.numPages; i++) {
         const page = await pdf.getPage(i);
         const content = await page.getTextContent();
-        text += content.items.map(it => it.str).join(\' \') + \'\\n\';
+        text += content.items.map(it => it.str).join(' ') + '\\n';
       }
     } else {
-      throw new Error(\'Formato não suportado\');
+      throw new Error('Formato não suportado');
     }
     resumeText.value = text.trim();
     filenameEl.textContent = "✓ " + file.name + " carregado";
   } catch (err) {
     filenameEl.textContent = "";
-    showMsg(\'Não consegui ler esse arquivo. Tente colar o texto diretamente.\', \'err\');
+    showMsg('Não consegui ler esse arquivo. Tente colar o texto diretamente.', 'err');
   }
 }
 
 function showMsg(text, type) {
-  statusMsg.innerHTML = \'<div class="msg \' + type + \'">\' + text + \'</div>\';
+  statusMsg.innerHTML = '<div class="msg ' + type + '">' + text + '</div>';
 }
 
-gerarBtn.addEventListener(\'click\', async () => {
+gerarBtn.addEventListener('click', async () => {
   const cv = resumeText.value.trim();
-  const cargo = document.getElementById(\'cargoAlvo\').value.trim();
-  const jobDesc = document.getElementById(\'jobDesc\').value.trim();
+  const cargo = document.getElementById('cargoAlvo').value.trim();
+  const jobDesc = document.getElementById('jobDesc').value.trim();
 
-  if (!cv) return showMsg(\'Cole ou envie seu currículo atual primeiro.\', \'err\');
-  if (!cargo) return showMsg(\'Informe o cargo desejado.\', \'err\');
-  if (cv.length > 8000) showMsg(\'Seu currículo é longo — vamos usar os primeiros 8.000 caracteres. Se faltar alguma experiência importante no resultado, edite o texto para priorizá-la.\', \'warn\');
+  if (!cv) return showMsg('Cole ou envie seu currículo atual primeiro.', 'err');
+  if (!cargo) return showMsg('Informe o cargo desejado.', 'err');
+  if (cv.length > 8000) showMsg('Seu currículo é longo — vamos usar os primeiros 8.000 caracteres. Se faltar alguma experiência importante no resultado, edite o texto para priorizá-la.', 'warn');
 
   gerarBtn.disabled = true;
-  gerarBtn.textContent = \'Aplicando Método A.R.T.E.®...\';
-  statusMsg.innerHTML = \'\';
-  resultado.style.display = \'none\';
+  gerarBtn.textContent = 'Aplicando Método A.R.T.E.®...';
+  statusMsg.innerHTML = '';
+  resultado.style.display = 'none';
 
-  const prompt = `Você é um especialista brasileiro em otimização de currículos para sistemas ATS, aplicando o Método A.R.T.E.® (Analise, Reformule, Teste, Execute).\n\nCURRÍCULO ATUAL DO CANDIDATO:\n"""\n${cv.slice(0, 8000)}\n"""\n\nCARGO DESEJADO: ${cargo}\n${jobDesc ? \'DESCRIÇÃO DA VAGA:\\n"""\\n\' + jobDesc.slice(0,2500) + \'\\n"""\' : \'\'}\n\nTAREFA: Reescreva este currículo para o cargo acima, seguindo estas regras rígidas:\n- NUNCA invente empresas, cargos, datas ou formação que não estejam no currículo original. Apenas reorganize, reformule e destaque o que já existe.\n- Transforme tarefas em conquistas com números sempre que o texto original permitir inferir isso; se não houver dado numérico, não invente.\n- Use palavras-chave relevantes para o cargo e para filtros ATS.\n- Escreva em português do Brasil, tom profissional e direto.\n- Limite: no máximo 3 experiências profissionais e 4 bullets por experiência.\n- EVITE clichês e jargão corporativo genérico de IA, como "expertise consolidada", "resultados expressivos", "sólida experiência", "vasta bagagem", "proatividade e excelência", "entrega de valor" ou frases-padrão similares. Prefira verbos de ação concretos e específicos ao que a pessoa de fato fez.\n- Varie o comprimento e a estrutura das frases entre os bullets — não repita o mesmo padrão gramatical (ex: "Verbo + substantivo + resultado") em todos eles, isso soa artificial.\n- Escreva como um profissional de RH experiente editaria um texto humano: direto, específico, sem adjetivos vazios. Se uma frase poderia ter sido escrita sobre qualquer pessoa nessa profissão, ela é genérica demais — reescreva com algo específico do currículo original.\n\nResponda APENAS com um JSON válido, sem texto antes ou depois, neste formato exato:\n{\n  "nome": "string ou \'Seu Nome\' se não identificado no currículo",\n  "cargo_alvo": "${cargo}",\n  "resumo_profissional": "2-3 frases",\n  "experiencias": [{"cargo":"", "empresa":"", "periodo":"", "bullets":["",""]}],\n  "formacao": [{"curso":"", "instituicao":"", "periodo":""}],\n  "competencias": ["até 8 itens"],\n  "palavras_chave_ats": ["5 a 8 palavras-chave usadas"],\n  "ats_score": número de 1 a 100 estimando a prontidão ATS do currículo reformulado\n}`;
+  const prompt = `Você é um especialista brasileiro em otimização de currículos para sistemas ATS, aplicando o Método A.R.T.E.® (Analise, Reformule, Teste, Execute).\n\nCURRÍCULO ATUAL DO CANDIDATO:\n"""\n${cv.slice(0, 8000)}\n"""\n\nCARGO DESEJADO: ${cargo}\n${jobDesc ? 'DESCRIÇÃO DA VAGA:\\n"""\\n' + jobDesc.slice(0,2500) + '\\n"""' : ''}\n\nTAREFA: Reescreva este currículo para o cargo acima, seguindo estas regras rígidas:\n- NUNCA invente empresas, cargos, datas ou formação que não estejam no currículo original. Apenas reorganize, reformule e destaque o que já existe.\n- Transforme tarefas em conquistas com números sempre que o texto original permitir inferir isso; se não houver dado numérico, não invente.\n- Use palavras-chave relevantes para o cargo e para filtros ATS.\n- Escreva em português do Brasil, tom profissional e direto.\n- Limite: no máximo 3 experiências profissionais e 4 bullets por experiência.\n- EVITE clichês e jargão corporativo genérico de IA, como "expertise consolidada", "resultados expressivos", "sólida experiência", "vasta bagagem", "proatividade e excelência", "entrega de valor" ou frases-padrão similares. Prefira verbos de ação concretos e específicos ao que a pessoa de fato fez.\n- Varie o comprimento e a estrutura das frases entre os bullets — não repita o mesmo padrão gramatical (ex: "Verbo + substantivo + resultado") em todos eles, isso soa artificial.\n- Escreva como um profissional de RH experiente editaria um texto humano: direto, específico, sem adjetivos vazios. Se uma frase poderia ter sido escrita sobre qualquer pessoa nessa profissão, ela é genérica demais — reescreva com algo específico do currículo original.\n\nResponda APENAS com um JSON válido, sem texto antes ou depois, neste formato exato:\n{\n  "nome": "string ou 'Seu Nome' se não identificado no currículo",\n  "cargo_alvo": "${cargo}",\n  "resumo_profissional": "2-3 frases",\n  "experiencias": [{"cargo":"", "empresa":"", "periodo":"", "bullets":["",""]}],\n  "formacao": [{"curso":"", "instituicao":"", "periodo":""}],\n  "competencias": ["até 8 itens"],\n  "palavras_chave_ats": ["5 a 8 palavras-chave usadas"],\n  "ats_score": número de 1 a 100 estimando a prontidão ATS do currículo reformulado\n}`;
 
   try {
     const response = await fetch(PROXY_URL, {
@@ -514,106 +514,106 @@ gerarBtn.addEventListener(\'click\', async () => {
       })
     });
     const data = await response.json();
-    const textBlock = data.content.find(b => b.type === \'text\');
-    let raw = textBlock ? textBlock.text : \'\';
-    raw = raw.replace(/```json|```/g, \'\').trim();
+    const textBlock = data.content.find(b => b.type === 'text');
+    let raw = textBlock ? textBlock.text : '';
+    raw = raw.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(raw);
     lastResumeData = parsed;
     renderPreview(parsed);
-    showMsg(\'Currículo gerado com sucesso.\', \'ok\');
+    showMsg('Currículo gerado com sucesso.', 'ok');
 
     // Desconta 1 crédito no backend agora que a geração deu certo
     try {
       const consumoRes = await fetch(SCRIPT_URL, {
-        method: \'POST\',
-        headers: { \'Content-Type\': \'text/plain;charset=utf-8\' },
-        body: JSON.stringify({ action: \'consumir_credito\', email: acesso.email, codigo: acesso.codigo })
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'consumir_credito', email: acesso.email, codigo: acesso.codigo })
       });
       const consumoData = await consumoRes.json();
       if (consumoData.ok) {
         atualizarCreditos(consumoData.creditos_restantes, null);
       }
     } catch (e) {
-      console.error(\'Falha ao descontar crédito:\', e);
+      console.error('Falha ao descontar crédito:', e);
     }
   } catch (err) {
-    console.error(err);    showMsg(\'Algo deu errado ao gerar o currículo. Tente novamente.\', \'err\');
+    console.error(err);    showMsg('Algo deu errado ao gerar o currículo. Tente novamente.', 'err');
   } finally {
     gerarBtn.disabled = false;
-    gerarBtn.textContent = \'Gerar meu currículo irresistível\';
+    gerarBtn.textContent = 'Gerar meu currículo irresistível';
   }
 });
 
 function renderPreview(d) {
-  atsScoreNum.textContent = (d.ats_score || \'—\') + (d.ats_score ? \'%\' : \'\');
-  let html = `<h3 class="nome">${escapeHtml(d.nome || \'Seu Nome\')}</h3>\n	  <div class="cargo">${escapeHtml(d.cargo_alvo || \'\')}</div>\n	  <p>${escapeHtml(d.resumo_profissional || \'\')}</p>`;
+  atsScoreNum.textContent = (d.ats_score || '—') + (d.ats_score ? '%' : '');
+  let html = `<h3 class="nome">${escapeHtml(d.nome || 'Seu Nome')}</h3>\n	  <div class="cargo">${escapeHtml(d.cargo_alvo || '')}</div>\n	  <p>${escapeHtml(d.resumo_profissional || '')}</p>`;
 
   if (d.experiencias && d.experiencias.length) {
-    html += \'<h4>Experiência</h4>\';
+    html += '<h4>Experiência</h4>';
     d.experiencias.forEach(exp => {
-      html += `<div class="job"><span class="periodo">${escapeHtml(exp.periodo||\'\')}</span>\n	      <div class="titulo">${escapeHtml(exp.cargo||\'\')} — ${escapeHtml(exp.empresa||\'\')}</div>\n	      <ul>${(exp.bullets||[]).map(b=>\'<li>\'+escapeHtml(b)+\'</li>\').join(\'\')}</ul></div>`;
+      html += `<div class="job"><span class="periodo">${escapeHtml(exp.periodo||'')}</span>\n	      <div class="titulo">${escapeHtml(exp.cargo||'')} — ${escapeHtml(exp.empresa||'')}</div>\n	      <ul>${(exp.bullets||[]).map(b=>'<li>'+escapeHtml(b)+'</li>').join('')}</ul></div>`;
     });
   }
   if (d.formacao && d.formacao.length) {
-    html += \'<h4>Formação</h4>\';
+    html += '<h4>Formação</h4>';
     d.formacao.forEach(f => {
-      html += `<div class="job"><span class="periodo">${escapeHtml(f.periodo||\'\')}</span>\n	      <div class="titulo">${escapeHtml(f.curso||\'\')} — ${escapeHtml(f.instituicao||\'\')}</div></div>`;
+      html += `<div class="job"><span class="periodo">${escapeHtml(f.periodo||'')}</span>\n	      <div class="titulo">${escapeHtml(f.curso||'')} — ${escapeHtml(f.instituicao||'')}</div></div>`;
     });
   }
   if (d.competencias && d.competencias.length) {
-    html += \'<h4>Competências</h4><div class="skills-list">\' +
-      d.competencias.map(c=>\'<span>\'+escapeHtml(c)+\'</span>\').join(\'\') + \'</div>\';
+    html += '<h4>Competências</h4><div class="skills-list">' +
+      d.competencias.map(c=>'<span>'+escapeHtml(c)+'</span>').join('') + '</div>';
   }
   previewBox.innerHTML = html;
-  resultado.style.display = \'block\';
-  resultado.scrollIntoView({ behavior: \'smooth\', block: \'start\' });
+  resultado.style.display = 'block';
+  resultado.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function escapeHtml(s) {
-  return String(s).replace(/[&<>"\']/g, m => ({\'&\':\'&amp;\',\'<\':\'&lt;\',\'>\':\'&gt;\',\'"\':\'&quot;\',"\'\':\'&#39;\'}[m]));
+  return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
 
-downloadBtn.addEventListener(\'click\', () => {
+downloadBtn.addEventListener('click', () => {
   if (!lastResumeData) return;
   const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ unit: \'pt\', format: \'a4\' });
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
   const d = lastResumeData;
   const marginX = 50;
   let y = 60;
   const pageWidth = 595 - marginX * 2;
 
-  doc.setFont(\'helvetica\', \'bold\'); doc.setFontSize(20); doc.setTextColor(13,43,94);
-  doc.text(d.nome || \'Seu Nome\', marginX, y);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.setTextColor(13,43,94);
+  doc.text(d.nome || 'Seu Nome', marginX, y);
   y += 20;
-  doc.setFont(\'helvetica\', \'normal\'); doc.setFontSize(12); doc.setTextColor(212,66,122);
-  doc.text(d.cargo_alvo || \'\', marginX, y);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(12); doc.setTextColor(212,66,122);
+  doc.text(d.cargo_alvo || '', marginX, y);
   y += 22;
 
   doc.setTextColor(20,26,46); doc.setFontSize(10.5);
-  const resumoLines = doc.splitTextToSize(d.resumo_profissional || \'\', pageWidth);
+  const resumoLines = doc.splitTextToSize(d.resumo_profissional || '', pageWidth);
   doc.text(resumoLines, marginX, y);
   y += resumoLines.length * 13 + 14;
 
   function sectionTitle(t) {
-    doc.setFont(\'helvetica\',\'bold\'); doc.setFontSize(11); doc.setTextColor(27,75,142);
+    doc.setFont('helvetica','bold'); doc.setFontSize(11); doc.setTextColor(27,75,142);
     doc.text(t.toUpperCase(), marginX, y);
     doc.setDrawColor(192,200,216);
     doc.line(marginX, y+4, 595-marginX, y+4);
     y += 18;
-    doc.setFont(\'helvetica\',\'normal\'); doc.setTextColor(20,26,46);
+    doc.setFont('helvetica','normal'); doc.setTextColor(20,26,46);
   }
 
   if (d.experiencias && d.experiencias.length) {
-    sectionTitle(\'Experiência Profissional\');
+    sectionTitle('Experiência Profissional');
     d.experiencias.forEach(exp => {
-      doc.setFont(\'helvetica\',\'bold\'); doc.setFontSize(10.5);
-      doc.text(`${exp.cargo || \'\'} — ${exp.empresa || \'\'}`, marginX, y);
-      doc.setFont(\'helvetica\',\'normal\'); doc.setFontSize(9.5); doc.setTextColor(120,128,152);
-      doc.text(exp.periodo || \'\', 595-marginX, y, { align: \'right\' });
+      doc.setFont('helvetica','bold'); doc.setFontSize(10.5);
+      doc.text(`${exp.cargo || ''} — ${exp.empresa || ''}`, marginX, y);
+      doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(120,128,152);
+      doc.text(exp.periodo || '', 595-marginX, y, { align: 'right' });
       doc.setTextColor(20,26,46);
       y += 14;
       (exp.bullets||[]).forEach(b => {
-        const lines = doc.splitTextToSize(\'• \' + b, pageWidth - 10);
+        const lines = doc.splitTextToSize('• ' + b, pageWidth - 10);
         doc.setFontSize(9.5);
         doc.text(lines, marginX+8, y);
         y += lines.length * 12;
@@ -623,12 +623,12 @@ downloadBtn.addEventListener(\'click\', () => {
   }
 
   if (d.formacao && d.formacao.length) {
-    sectionTitle(\'Formação\');
+    sectionTitle('Formação');
     d.formacao.forEach(f => {
       doc.setFontSize(10);
-      doc.text(`${f.curso || \'\'} — ${f.instituicao || \'\'}`, marginX, y);
+      doc.text(`${f.curso || ''} — ${f.instituicao || ''}`, marginX, y);
       doc.setTextColor(120,128,152);
-      doc.text(f.periodo || \'\', 595-marginX, y, { align: \'right\' });
+      doc.text(f.periodo || '', 595-marginX, y, { align: 'right' });
       doc.setTextColor(20,26,46);
       y += 16;
     });
@@ -636,17 +636,17 @@ downloadBtn.addEventListener(\'click\', () => {
   }
 
   if (d.competencias && d.competencias.length) {
-    sectionTitle(\'Competências\');
-    const compLines = doc.splitTextToSize(d.competencias.join(\'  •  \'), pageWidth);
+    sectionTitle('Competências');
+    const compLines = doc.splitTextToSize(d.competencias.join('  •  '), pageWidth);
     doc.setFontSize(9.5);
     doc.text(compLines, marginX, y);
     y += compLines.length * 12 + 10;
   }
 
   doc.setFontSize(8); doc.setTextColor(150,155,170);
-  doc.text(\'Gerado com Currículo Irresistível IA — Método A.R.T.E.® — SUA VAGA DE EMPREGO\', marginX, 800);
+  doc.text('Gerado com Currículo Irresistível IA — Método A.R.T.E.® — SUA VAGA DE EMPREGO', marginX, 800);
 
-  const safeName = (d.nome || \'curriculo\').replace(/[^a-zA-Z0-9]/g, \'_\');
+  const safeName = (d.nome || 'curriculo').replace(/[^a-zA-Z0-9]/g, '_');
   doc.save(`Curriculo_${safeName}.pdf`);
 });
 </script>
